@@ -1,0 +1,32 @@
+<h1>Employee time report</h1>
+
+<p>Employees ordered by total time worked.</p>
+
+@if (error()) {
+  <p role="alert">{{ error() }}</p>
+}
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Total time worked</th>
+    </tr>
+  </thead>
+<tbody>
+@for (employee of employees(); track employee.employeeName) {
+  <tr [class.low-hours]="employee.totalHours < 100">
+    <td>{{ employee.employeeName }}</td>
+    <td>{{ employee.totalHours | number:'1.2-2' }} hrs</td>
+  </tr>
+}
+</tbody>
+</table>
+
+<div class="chart-container">
+  <canvas #pieCanvas></canvas>
+</div>
+
+@if (employees().length > 0) {
+  <button class="download-button" (click)="downloadChart()">Download pie chart (PNG)</button>
+}
